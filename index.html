@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sakshi Electricals — Invoice & Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="tabs">
+      <button id="tabInvoice" class="active">Create Invoice</button>
+      <button id="tabDashboard">Previous Invoices</button>
+    </div>
+    <div class="logo-upload">
+      <label for="logoFile" class="upload-btn" title="Replace logo in header">Change Logo</label>
+      <input id="logoFile" type="file" accept="image/*" style="display:none">
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- INVOICE SECTION -->
+    <section id="invoiceSection" class="panel">
+      <div id="formRoot" class="form-root">
+        <header class="inv-header">
+          <!-- Logo (replaceable via Change Logo) -->
+          <img id="companyLogo" class="inv-logo" alt="SE logo"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABkCAYAAAC2m3ePAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEgElEQVR4nO2aS4hVVRTHf2d2q3aKq2q0q1KpKQm0kqjSpt0k2a2ZqWm1q6W2m2lqW2kq1aQqS3QWmTVm2qgqS0UqZkSg4mVq2k6a0Z2Z2V7XQ9+7s7s7t33nvPffNwP3zM7c+9555xzvPOc7wqgq0wC63gT0A6e3GqDz4BTQFz4C7gE7gG7gE7gG7gFbgB+gQ/AXmQwV2gHbwCbgGfgI3gO3gI3gN3gB3gL/9s1nU6m0w3APb4Dq4C3gZ8E3YBv4D1gqQ1v6s1Mh7gQnAR+9P1m8BvYH3gV8D9wGx9gjtQyQv4JvBT8C6wX+v1Y8B2wH7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gFbgH3gG9gQf4f4gV14Iv8N8wQb0zXgP3gFbgJz4D1wQ3gKfAV+T3z+f6+q0+1u4s9QfVb0t7a9q9Bqv9M3wC7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG6gH+v9wH3gHn3Q3gHnQw6A+9W8l1a8R6jaO8wXwN2+7oQwO6c8wA3sQ8Q7r9h3gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gE7gG7gG7gH+zFvZ+9T8Gf4DkI6J/6q1gAAAABJRU5ErkJggg==" />
+          <div class="company">
+            <h1>SAKSHI ELECTRICALS</h1>
+            <div class="tag">All Type's Electricals & Fire System Work</div>
+            <div class="addr">3-A, Stadium House, Stadium Five Road, Navrang Pura, Ahmedabad-09. Mob. 9825645402</div>
+            <div class="gst">GSTIN: 24AZOPS1216M1ZI</div>
+          </div>
+
+          <div class="invoice-meta">
+            <div><label>Bill No</label><input id="inpBillNo" placeholder="e.g. 1001"></div>
+            <div><label>Date</label><input id="inpDate" type="date"></div>
+            <div><label>Challan No</label><input id="inpChallan"></div>
+          </div>
+        </header>
+
+        <section class="party-section">
+          <div class="party-left">
+            <label>Customer / M/s</label>
+            <input id="inpCustomer" placeholder="Customer name">
+            <label>Customer Address</label>
+            <textarea id="inpAddress" rows="2" placeholder="Address"></textarea>
+          </div>
+          <div class="party-right">
+            <label>Party's GSTIN</label>
+            <input id="inpPartyGst" placeholder="Enter Party GSTIN">
+          </div>
+        </section>
+
+        <section class="items-section">
+          <div class="items-controls">
+            <button id="btnAddRow">+ Add Row</button>
+            <button id="btnClearRows" class="secondary">Clear Rows</button>
+            <button id="btnSaveDraft" class="secondary">Save Draft</button>
+          </div>
+
+          <div class="table-wrap">
+            <table id="itemsTable">
+              <thead>
+                <tr>
+                  <th style="width:36%;">Description</th>
+                  <th style="width:10%;">HSN</th>
+                  <th style="width:8%;">Unit</th>
+                  <th style="width:8%;">Qty</th>
+                  <th style="width:10%;">Rate</th>
+                  <th style="width:8%;">SGST %</th>
+                  <th style="width:9%;">SGST Amt</th>
+                  <th style="width:8%;">CGST %</th>
+                  <th style="width:9%;">CGST Amt</th>
+                  <th style="width:12%;">Amount</th>
+                  <th style="width:6%;">Del</th>
+                </tr>
+              </thead>
+              <tbody id="itemsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="summary-section">
+          <div class="left-summary">
+            <div class="bank">
+              <strong>Bank Details :</strong><br>
+              KOTAK MAHINDRA BANK — Branch: Ashram Road<br>
+              A/C No. 2312087519 — RTGS/NEFT IFSC : KKBK0002590
+            </div>
+            <div class="jur">Subject to Ahmedabad Jurisdiction E. & O.E.</div>
+          </div>
+
+          <div class="right-summary">
+            <div class="row">
+              <div>Subtotal</div>
+              <div id="subtotal">₹0.00</div>
+            </div>
+            <div class="row">
+              <div>Total SGST</div>
+              <div id="totalSgst">₹0.00</div>
+            </div>
+            <div class="row">
+              <div>Total CGST</div>
+              <div id="totalCgst">₹0.00</div>
+            </div>
+            <div class="row grand">
+              <div>Grand Total</div>
+              <div id="grandTotal">₹0.00</div>
+            </div>
+            <div class="row words-left">
+              <div class="words-label">Amount (in words)</div>
+              <div id="amountWords" class="words">Zero Rupees Only</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="footer-section">
+          <div class="from">
+            <div>From,</div>
+            <div class="company-name">SAKSHI ELECTRICALS</div>
+            <div class="signature">Ndshah</div>
+          </div>
+
+          <div class="actions">
+            <button id="btnGenerate">💾 Generate & Download PDF</button>
+            <button id="btnSave" class="secondary">Save to History</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- DASHBOARD / HISTORY -->
+    <section id="dashboardSection" class="panel hidden">
+      <h3>Previous Invoices</h3>
+      <div id="invoicesList" class="invoices-list"></div>
+      <div style="margin-top:12px">
+        <button id="btnClearHistory" class="secondary">Clear All History</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- invoice template used only for PDF rendering (hidden) -->
+  <div id="printInvoice" class="print-invoice hidden">
+    <div class="print-root">
+      <div class="print-header">
+        <img id="printLogo" class="print-logo" alt="logo" />
+        <div class="print-company">
+          <div class="print-title">SAKSHI ELECTRICALS</div>
+          <div class="print-tag">All Type's Electricals & Fire System Work</div>
+          <div class="print-addr">3-A, Stadium House, Stadium Five Road, Navrang Pura, Ahmedabad-09. Mob. 9825645402</div>
+          <div class="print-gst">GSTIN: 24AZOPS1216M1ZI</div>
+        </div>
+        <div class="print-meta">
+          <div><strong>Bill No:</strong> <span id="pBillNo"></span></div>
+          <div><strong>Date:</strong> <span id="pDate"></span></div>
+          <div><strong>Challan No:</strong> <span id="pChallan"></span></div>
+        </div>
+      </div>
+
+      <div class="print-party">
+        <div><strong>M/S:</strong> <span id="pCustomer"></span></div>
+        <div><strong>Party's GSTIN:</strong> <span id="pPartyGst"></span></div>
+        <div class="pAddress"><strong>Address:</strong> <span id="pAddress"></span></div>
+      </div>
+
+      <table class="print-table">
+        <thead>
+          <tr><th style="width:46%;">Description</th><th style="width:12%;">HSN Code</th><th style="width:8%;">Qty</th><th style="width:8%;">Unit</th><th style="width:12%;">Rate</th><th style="width:14%;">Amount</th></tr>
+        </thead>
+        <tbody id="pItemsBody"></tbody>
+      </table>
+
+      <div class="print-bottom">
+        <div class="print-bank">
+          <div><strong>GSTIN: 24AZOPS1216M1ZI</strong></div>
+         
+          <div style="margin-top:8px"><strong>Bank Details :</strong><br>KOTAK MAHINDRA BANK — Branch: Ashram Road<br>A/C No. 2312087519 — RTGS/NEFT IFSC : KKBK0002590</div>
+          <div style="margin-top:8px">Subject to Ahmedabad Jurisdiction Only &nbsp; E. & O.E.</div>
+        </div>
+
+        <div class="print-totals">
+          <table>
+            <tr><td>Subtotal</td><td id="pSubtotal">₹0.00</td></tr>
+            <tr><td>Total SGST</td><td id="pTotalSgst">₹0.00</td></tr>
+            <tr><td>Total CGST</td><td id="pTotalCgst">₹0.00</td></tr>
+            <tr class="grand"><td>Grand Total</td><td id="pGrandTotal">₹0.00</td></tr>
+            <tr><td>Amount (in words)</td><td id="pAmountWords">Zero Rupees Only</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="print-footer">
+        <div>For, SAKSHI ELECTRICALS</div>
+        <div class="signature">Ndshah</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
